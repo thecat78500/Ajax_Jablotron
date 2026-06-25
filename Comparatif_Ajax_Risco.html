@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparatif Ajax vs Risco - Sertek</title>
+<style>
+  /* ═══════════════════════════════════════════════════════
+     VARIABLES
+  ═══════════════════════════════════════════════════════ */
+  :root {
+    --ajax-red:    #CC0000;
+    --ajax-bg:     #FDECEA;
+    --risco-blue:  #005BAA;
+    --risco-bg:    #E0EAF6;
+    --risco-dark:  #003A7A;
+    --green:       #1E8449;
+    --green-bg:    #D5F5E3;
+    --orange:      #D35400;
+    --orange-bg:   #FDEBD0;
+    --dark:        #1C2833;
+    --header-bg:   #1C2833;
+    --grey:        #85929E;
+    --grey-bg:     #F4F6F7;
+    --white:       #FFFFFF;
+    --yellow-bg:   #FFFDE7;
+    --red-warn:    #FFEBEE;
+    --font:        'Segoe UI', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: #ECEFF1;
+    color: var(--dark);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .page { max-width: 1200px; margin: 0 auto; background: white; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .page { max-width: 100%; box-shadow: none; }
+    .no-print { display: none; }
+    .section { page-break-inside: avoid; }
+  }
+
+  /* ══════════════════════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════════════════════ */
+  .header {
+    background: var(--dark);
+    padding: 28px 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo-zone {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .logo-ajax   { height: 44px; width: auto; }
+  .logo-risco  { height: 44px; width: auto; }
+  .logo-sertek { height: 52px; width: auto; }
+
+  .logo-sep {
+    width: 1px; height: 40px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .header-title {
+    text-align: right;
+    color: white;
+  }
+  .header-title h1 {
+    font-size: 18px; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .header-title p {
+    font-size: 11px; color: rgba(255,255,255,0.6);
+    margin-top: 3px; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  .header-badge {
+    background: var(--ajax-red);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    display: inline-block;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     INTRO BANNER
+  ══════════════════════════════════════════════════════ */
+  .intro-banner {
+    background: linear-gradient(135deg, #CC0000 0%, #8B0000 100%);
+    color: white;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .intro-banner h2 {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .intro-banner p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .score-pill {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 10px 20px;
+    text-align: center;
+    min-width: 160px;
+  }
+  .score-pill .big { font-size: 32px; font-weight: 900; }
+  .score-pill .small { font-size: 11px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ══════════════════════════════════════════════════════
+     CONTENT
+  ══════════════════════════════════════════════════════ */
+  .content { padding: 32px 40px; }
+
+  .section { margin-bottom: 36px; }
+
+  .section-title {
+    background: var(--header-bg);
+    color: white;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+  }
+  .section-title .icon { font-size: 18px; }
+
+  /* ══════════════════════════════════════════════════════
+     COMPARISON TABLE
+  ══════════════════════════════════════════════════════ */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    table-layout: fixed;
+  }
+  .comp-table th {
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border: 1px solid #DDD;
+  }
+  .th-crit  { background: var(--dark);       color: white; width: 22%; text-align: left; }
+  .th-ajax  { background: var(--ajax-red);   color: white; width: 32%; }
+  .th-risco { background: var(--risco-blue); color: white; width: 32%; }
+  .th-adv   { background: var(--dark);       color: white; width: 14%; }
+
+  .comp-table td {
+    padding: 10px 14px;
+    border: 1px solid #E0E0E0;
+    vertical-align: top;
+  }
+  .td-crit  { font-weight: 600; font-size: 12px; background: var(--grey-bg); }
+  .td-ajax  { background: var(--ajax-bg); }
+  .td-risco { background: var(--risco-bg); }
+  .td-adv   { text-align: center; font-weight: 700; font-size: 12px; }
+
+  .row-even .td-crit  { background: #F9F9F9; }
+  .row-even .td-ajax  { background: #FEF0EF; }
+  .row-even .td-risco { background: #D6E4F0; }
+
+  .adv-ajax  { color: var(--ajax-red);   background: var(--ajax-bg); }
+  .adv-risco { color: var(--risco-blue); background: var(--risco-bg); }
+  .adv-egal  { color: var(--orange);     background: var(--yellow-bg); }
+
+  .check { color: var(--green);    font-weight: 700; }
+  .warn  { color: var(--orange);   font-weight: 700; }
+  .cross { color: var(--ajax-red); font-weight: 700; }
+
+  .score-row td {
+    background: var(--grey-bg);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 14px;
+    border-top: 2px solid #CCC;
+  }
+  .score-ajax  { color: var(--ajax-red);   background: var(--ajax-bg)  !important; text-align: center; }
+  .score-risco { color: var(--risco-blue); background: var(--risco-bg) !important; text-align: center; }
+
+  /* ══════════════════════════════════════════════════════
+     PRICING TABLE
+  ══════════════════════════════════════════════════════ */
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .price-table th {
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #DDD;
+  }
+  .price-table td {
+    padding: 9px 14px;
+    border: 1px solid #E0E0E0;
+    vertical-align: middle;
+  }
+  .price-table .total-row td {
+    background: var(--dark) !important;
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    border-top: 2px solid #666;
+  }
+  .price-table .total-row .ajax-total {
+    background: var(--ajax-red) !important;
+    color: white;
+    text-align: right;
+  }
+  .price-table .total-row .risco-total {
+    background: var(--risco-blue) !important;
+    color: white;
+    text-align: right;
+  }
+  .price-table .total-row .delta-cell {
+    text-align: center;
+  }
+  .delta-green { background: var(--green-bg) !important; color: var(--green); font-weight: 700; text-align: center; }
+  .delta-red   { background: var(--red-warn) !important; color: var(--orange); font-weight: 700; text-align: center; }
+  .delta-blue  { background: var(--risco-bg) !important; color: var(--risco-blue); font-weight: 700; text-align: center; }
+  .price-ajax  { background: var(--ajax-bg)  !important; color: var(--ajax-red);   font-weight: 700; text-align: right; }
+  .price-risco { background: var(--risco-bg) !important; color: var(--risco-blue); font-weight: 700; text-align: right; }
+  .excl-ajax   { background: var(--green-bg) !important; color: var(--green); font-style: italic; }
+
+  /* ══════════════════════════════════════════════════════
+     ARGUMENT CARDS
+  ══════════════════════════════════════════════════════ */
+  .args-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .arg-card {
+    background: var(--green-bg);
+    border: 1px solid #A9DFBF;
+    border-left: 5px solid var(--green);
+    border-radius: 6px;
+    padding: 16px 18px;
+  }
+  .arg-card .arg-num {
+    font-size: 11px; font-weight: 800;
+    color: var(--green); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 6px;
+  }
+  .arg-card .arg-title {
+    font-size: 14px; font-weight: 800;
+    color: var(--dark); margin-bottom: 8px;
+  }
+  .arg-card .arg-text {
+    font-size: 12px; color: #2C3E50; line-height: 1.6;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     ALERT BOXES
+  ══════════════════════════════════════════════════════ */
+  .alert-box {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert-green  { background: var(--green-bg);  border: 1px solid #A9DFBF; }
+  .alert-orange { background: var(--orange-bg); border: 1px solid #F5CBA7; }
+  .alert-red    { background: var(--red-warn);  border: 1px solid #F1948A; }
+  .alert-blue   { background: var(--risco-bg);  border: 1px solid #AED6F1; }
+  .alert-yellow { background: var(--yellow-bg); border: 1px solid #F9E79F; }
+
+  /* ══════════════════════════════════════════════════════
+     SCENARIO HEADER
+  ══════════════════════════════════════════════════════ */
+  .scenario-title {
+    background: #2C3E50;
+    color: white;
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════════════════════ */
+  .footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    padding: 20px 40px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
+  .footer strong { color: rgba(255,255,255,0.8); }
+
+  /* ══════════════════════════════════════════════════════
+     UTILITY
+  ══════════════════════════════════════════════════════ */
+  .tag-ajax  { background: var(--ajax-red);   color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+  .tag-risco { background: var(--risco-blue); color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+  .tag-ok    { background: var(--green);      color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+  .tag-warn  { background: var(--orange);     color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+
+  small { font-size: 11px; color: var(--grey); }
+  br { line-height: 2; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  @media (max-width: 900px) {
+    .two-col   { grid-template-columns: 1fr; }
+    .args-grid { grid-template-columns: 1fr; }
+    .header    { padding: 20px; }
+    .content   { padding: 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .comp-table  { table-layout: fixed; font-size: 11px; }
+    .th-crit  { width: 22%; }
+    .th-ajax  { width: 33%; }
+    .th-risco { width: 31%; }
+    .th-adv   { width: 14%; }
+    .comp-table th, .comp-table td { padding: 7px 6px; font-size: 11px; }
+    .score-pill { min-width: 120px; padding: 8px 14px; }
+    .score-pill .big { font-size: 24px; }
+    .content { padding: 12px; }
+  }
+
+  /* ══════════════════════════════════════════════════════
+     PASSWORD OVERLAY
+  ══════════════════════════════════════════════════════ */
+  #pw-overlay {
+    position: fixed; inset: 0;
+    background: rgba(28,40,51,0.97);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #pw-box {
+    background: white;
+    border-radius: 10px;
+    padding: 40px 48px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  #pw-box h2 { font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+  #pw-box p  { font-size: 13px; color: var(--grey); margin-bottom: 22px; }
+  #pw-box input {
+    width: 100%; padding: 12px 16px;
+    border: 2px solid #DDD; border-radius: 6px;
+    font-size: 15px; text-align: center; letter-spacing: 3px;
+    margin-bottom: 14px; outline: none;
+  }
+  #pw-box input:focus { border-color: var(--ajax-red); }
+  #pw-box button {
+    width: 100%; padding: 13px;
+    background: var(--ajax-red); color: white;
+    border: none; border-radius: 6px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+  #pw-box button:hover { background: #AA0000; }
+  #pw-error { color: var(--ajax-red); font-size: 12px; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PASSWORD PROTECTION
+════════════════════════════════════════════════════════ -->
+<div id="pw-overlay">
+  <div id="pw-box">
+    <h2>🔒 Document confidentiel</h2>
+    <p>Réservé aux techniciens &amp; installateurs partenaires Sertek</p>
+    <input type="password" id="pw-input" placeholder="Mot de passe" maxlength="20"
+           onkeydown="if(event.key==='Enter')checkPW()">
+    <button onclick="checkPW()">Accéder au comparatif</button>
+    <div id="pw-error">❌ Mot de passe incorrect (<span id="pw-tries">3</span> essai(s) restant)</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY='sertek_auth_risco', PWD='sertek2026', MAX=3;
+  var tries=parseInt(sessionStorage.getItem(KEY+'_tries')||MAX);
+  if(sessionStorage.getItem(KEY)==='ok'){
+    document.getElementById('pw-overlay').style.display='none';
+  }
+  window.checkPW=function(){
+    var v=document.getElementById('pw-input').value;
+    if(v===PWD){
+      sessionStorage.setItem(KEY,'ok');
+      document.getElementById('pw-overlay').style.display='none';
+    } else {
+      tries--;
+      sessionStorage.setItem(KEY+'_tries',tries);
+      document.getElementById('pw-error').style.display='block';
+      document.getElementById('pw-tries').textContent=tries;
+      document.getElementById('pw-input').value='';
+      if(tries<=0){
+        document.getElementById('pw-box').innerHTML='<h2 style="color:#CC0000">🚫 Accès bloqué</h2><p>Trop de tentatives incorrectes. Contactez Sertek.</p>';
+      }
+    }
+  };
+})();
+</script>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════════ -->
+<header class="header">
+  <div class="logo-zone">
+    <!-- LOGO SERTEK -->
+    <img src="images/logo_Sertek.png" class="logo-sertek" style="height:18px;" alt="Sertek">
+    <div class="logo-sep"></div>
+    <!-- LOGO AJAX -->
+    <img src="images/logo_Ajax.png" class="logo-ajax" style="height:10px;" alt="Ajax">
+    <div class="logo-sep"></div>
+    <!-- LOGO RISCO (texte SVG si fichier absent) -->
+    <svg width="80" height="22" viewBox="0 0 80 22" style="height:18px;width:auto;">
+      <rect width="80" height="22" rx="2" fill="#005BAA"/>
+      <text x="40" y="15" font-family="Arial" font-weight="800" font-size="13"
+            fill="white" text-anchor="middle" letter-spacing="2">RISCO</text>
+    </svg>
+  </div>
+
+  <div class="header-title">
+    <h1>Comparatif Technique &amp; Commercial</h1>
+    <p>Analyse complète pour installateurs professionnels</p>
+    <span class="header-badge">Édition Mars 2026</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════
+     INTRO BANNER
+════════════════════════════════════════════════════════ -->
+<div class="intro-banner">
+  <div>
+    <h2>Pourquoi choisir Ajax Systems ?</h2>
+    <p>Comparatif objectif Ajax vs Risco — analyse technique &amp; commerciale pour professionnels</p>
+  </div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;">
+    <div class="score-pill">
+      <div class="big">24.5<span style="font-size:10px">/25</span></div>
+      <div class="small">Score Ajax</div>
+    </div>
+    <div class="score-pill" style="background:rgba(0,91,170,0.4);border-color:rgba(255,255,255,0.2);">
+      <div class="big">12<span style="font-size:10px">/25</span></div>
+      <div class="small">Score Risco</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CONTENT
+════════════════════════════════════════════════════════ -->
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 1 - CONFIGURATION & MISE EN SERVICE
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🔧</span>
+    1 - CONFIGURATION &amp; MISE EN SERVICE
+  </div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="th-crit">Critère</th>
+        <th class="th-ajax">✅ AJAX</th>
+        <th class="th-risco">🔷 RISCO</th>
+        <th class="th-adv">Avantage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-crit">Outil de configuration</td>
+        <td class="td-ajax"><strong>Ajax PRO App</strong> — iOS &amp; Android<br><small>Gratuite, sans abonnement, cloud inclus</small><br><strong>Ajax PRO Desktop</strong> — Windows &amp; Mac<br><small>Gratuite, sans abonnement, cloud inclus</small></td>
+        <td class="td-risco"><strong>RisControl App</strong> — iOS &amp; Android<br><small>Pour LightSYS Air uniquement</small><br><strong>RisControl Software</strong> — PC Windows<br><small class="warn">Requis pour LightSYS+ / programmation avancée</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Plateforme requise</td>
+        <td class="td-ajax">Smartphone (iOS ou Android)<br><small>Aucun PC nécessaire</small></td>
+        <td class="td-risco">PC Windows pour LightSYS+<br><small class="warn">Connexion locale obligatoire (USB/LAN) pour la 1ère programmation</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Impact sur le système pendant config</td>
+        <td class="td-ajax"><span class="check">✔</span> Système <strong>OPÉRATIONNEL</strong> en permanence<br><small>Modifications en temps réel sans coupure</small></td>
+        <td class="td-risco"><span class="cross">✘</span> Mode <strong>SERVICE obligatoire</strong> (Walk Test)<br><small class="warn">Système HORS SERVICE pendant la programmation</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Connexion lors de la config</td>
+        <td class="td-ajax">LAN / Wi-Fi / 4G — à distance possible dès le départ<br><small>Connexion cloud directe via Ajax PRO</small></td>
+        <td class="td-risco">Présence physique obligatoire pour la 1ère mise en service<br><small class="warn">Accès à distance via RisCloud (abonnement requis)</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Accès au cloud</td>
+        <td class="td-ajax">Cloud Ajax <strong>inclus gratuitement</strong><br><small>Aucun abonnement mensuel</small></td>
+        <td class="td-risco">RisCloud disponible<br><small class="warn">Abonnement selon les conditions du distributeur</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Mises à jour firmware</td>
+        <td class="td-ajax"><span class="check">✔</span> Automatique via le cloud<br><small>Sans intervention terrain</small></td>
+        <td class="td-risco">Via RisControl / RisCloud<br><small class="warn">Parfois intervention locale nécessaire</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Gestion multi-sites</td>
+        <td class="td-ajax">Accès à toutes les centrales simultanément<br><small>Filtrage par technicien depuis Ajax PRO Desktop</small></td>
+        <td class="td-risco">Connexion site par site via RisCloud<br><small class="warn">Gestion plus complexe sur un parc important</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Formation technicien</td>
+        <td class="td-ajax">Ajax Academy en ligne, gratuite<br><small>Certification en 1 journée</small></td>
+        <td class="td-risco">Formation Risco + maîtrise du logiciel RisControl<br><small class="warn">Courbe d'apprentissage plus longue</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="score-row">
+        <td><strong>SCORE DE SECTION</strong></td>
+        <td class="score-ajax">⭐⭐⭐⭐⭐ — 5 / 5</td>
+        <td class="score-risco">⭐ — 2 / 5</td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 2 - COMMUNICATION & COÛT RÉEL DE LA CENTRALE
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📡</span>
+    2 - COMMUNICATION INTÉGRÉE &amp; COÛT RÉEL DE LA CENTRALE
+  </div>
+
+  <div class="alert-box alert-orange" style="margin-top:0;border-radius:0;">
+    <span class="alert-icon">⚠️</span>
+    <div>
+      <strong>Règle de comparaison équitable :</strong>
+      <br>Risco <strong>LightSYS Air</strong> = WiFi + IP intégrés, mais <strong>sans 4G</strong> et <strong>sans batterie</strong>.
+      <br>Pour une comparaison équitable (même niveau de redondance qu'Ajax), il faut ajouter : module 4G + batterie externe.
+      <br>Risco <strong>LightSYS+</strong> = nécessite en plus un module radio 868MHz et un boîtier séparé.
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="th-crit">Critère</th>
+        <th class="th-ajax">✅ AJAX</th>
+        <th class="th-risco">🔷 RISCO</th>
+        <th class="th-adv">Avantage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-crit">Communication incluse dans la centrale</td>
+        <td class="td-ajax"><span class="check">✔</span> Ethernet + Wi-Fi + Double SIM 4G LTE<br><small>TOUT inclus dans le prix du Hub</small></td>
+        <td class="td-risco"><span class="warn">⚠</span> LightSYS Air : Ethernet + Wi-Fi inclus<br><small class="warn">4G = module séparé (+88 CHF)</small><br><span class="warn">⚠</span> LightSYS+ : aucune comm. incluse dans la carte mère<br><small class="warn">WiFi/IP + 4G + module radio = modules séparés</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Batterie de secours</td>
+        <td class="td-ajax"><span class="check">✔</span> Batterie interne incluse dans TOUS les Hubs<br><small>16h ou 60h selon le modèle</small></td>
+        <td class="td-risco"><span class="cross">✘</span> <strong>Batterie externe obligatoire (EN 50131)</strong><br><small class="warn">Non incluse dans la centrale (+20 CHF minimum)</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Coût total centrale petite installation (4G + radio + batterie)</td>
+        <td class="td-ajax"><strong>Hub 2 (4G) Jeweller : CHF 115</strong><br><small>ETH + Wi-Fi + 2×SIM 4G + batterie — tout compris</small></td>
+        <td class="td-risco">LightSYS Air : 224 + 4G : 184 + batterie : 40<br><strong>= Total réel : CHF 448</strong><br><small class="warn">= 3 éléments séparés</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">−CHF 333</small></td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Coût total centrale grande installation</td>
+        <td class="td-ajax"><strong>Superior Hub Hybrid (4G) + batterie : CHF 395</strong><br><small>ETH + 2×SIM 4G + Grade 2/3 + Batterie incluse</small></td>
+        <td class="td-risco">LightSYS+ PCB : 208 + boîtier : 77 + module radio : 84 + 4G : 184 + batterie : 40<br><strong>= Total réel : CHF 593</strong><br><small class="warn">= 5 éléments séparés</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">−CHF 198</small></td>
+      </tr>
+      <tr>
+        <td class="td-crit">Redondance de communication</td>
+        <td class="td-ajax">Quadruple path : Ethernet + Wi-Fi + SIM1 + SIM2<br><small>Basculement automatique en temps réel</small></td>
+        <td class="td-risco">Ethernet + Wi-Fi (LightSYS Air de base)<br><small class="warn">4G = coût additionnel, SIM unique</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Batteries des équipements périphériques</td>
+        <td class="td-ajax"><span class="check">✔</span> Batterie incluse dans <strong>chaque appareil</strong><br><small>PIR, contact, clavier, sirène : tous alimentés</small></td>
+        <td class="td-risco">Batteries incluses dans les périphériques sans fil<br><small>Les modules bus nécessitent une alimentation filaire</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="score-row">
+        <td><strong>SCORE DE SECTION</strong></td>
+        <td class="score-ajax">⭐⭐⭐⭐⭐ — 5 / 5</td>
+        <td class="score-risco">⭐⭐ — 2 / 5</td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 3 - CAPACITÉS TECHNIQUES
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span>
+    3 - CAPACITÉS TECHNIQUES COMPARÉES
+  </div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="th-crit">Critère</th>
+        <th class="th-ajax">✅ AJAX</th>
+        <th class="th-risco">🔷 RISCO</th>
+        <th class="th-adv">Avantage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-crit">Petite installation</td>
+        <td class="td-ajax"><strong>Hub 2 :</strong> 100 appareils / 50 utilisateurs<br><small>9 groupes / ETH + Wi-Fi + 2×SIM</small></td>
+        <td class="td-risco"><strong>LightSYS Air :</strong> 32 zones sans fil / 50 utilisateurs<br><small>3 partitions / LAN + Wi-Fi (4G en option)</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">3× plus d'appareils</small></td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Installation moyenne / grande</td>
+        <td class="td-ajax"><strong>Superior Hub Hybrid :</strong> 100 appareils / 50 utilisateurs<br><small>ETH + 2×SIM + batterie + Grade 2/3</small></td>
+        <td class="td-risco"><strong>LightSYS+ :</strong> jusqu'à 512 zones / 500 utilisateurs<br><small>32 partitions / mais modules séparés obligatoires</small></td>
+        <td class="td-adv adv-risco">🔷 RISCO<br><small>Capacité zones supérieure</small></td>
+      </tr>
+      <tr>
+        <td class="td-crit">Très grande installation</td>
+        <td class="td-ajax"><strong>Superior Hub Hybrid 2 :</strong> 250 appareils / 200 utilisateurs<br><small>Grade 3 / ETH + 2×SIM + batterie</small><br><strong>Superior MegaHub :</strong> 999 appareils / 1 000 utilisateurs</td>
+        <td class="td-risco"><strong>LightSYS+ multi-bus :</strong> 512 zones<br><small>Architecture BUS RS485 (32 bus devices × 4 lignes)</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small>MegaHub sans équivalent</small></td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Grade de sécurité EN 50131</td>
+        <td class="td-ajax">Grade 2 (Baseline) / <strong>Grade 3 (Superior)</strong><br><small>Ajax SEUL à proposer du Grade 3 <strong>100% sans fil</strong></small></td>
+        <td class="td-risco">LightSYS Air : <strong>Grade 2 uniquement</strong><br>LightSYS+ : Grade 2/3 possible<br><small class="warn">Grade 3 nécessite câblage BUS + modules certifiés</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Portée sans fil</td>
+        <td class="td-ajax">Jeweller : <strong>2 000 m</strong> en espace libre<br><small>Technologie 868 MHz + protocole propriétaire bidirectionnel</small></td>
+        <td class="td-risco">868 MHz : <strong>environ 100–150 m</strong> en espace libre<br><small class="warn">20× moins de portée — nécessite plus de répéteurs</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">20× plus loin</small></td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Protocole de communication sans fil</td>
+        <td class="td-ajax">Jeweller (propriétaire bidirectionnel) — crypté AES-128<br><small>Supervision toutes les 30 secondes</small></td>
+        <td class="td-risco">868 MHz bidirectionnel — crypté AES-128<br><small>Supervision standard EN 50131</small></td>
+        <td class="td-adv adv-egal">⚖️ COMPARABLE</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Détection photo sur alarme</td>
+        <td class="td-ajax"><strong>MotionCam (PhOD)</strong> — photo sur alarme intégrée<br><small>Levée de doute instantanée incluse dans le produit</small></td>
+        <td class="td-risco"><strong>eyeWAVE Pet Cam</strong> — disponible sans fil<br><small>Fonctionnalité photo sur alarme présente</small></td>
+        <td class="td-adv adv-egal">⚖️ COMPARABLE</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Intégration vidéo</td>
+        <td class="td-ajax">Caméras IP Ajax + intégration tiers via AJAX OS<br><small>Vérification vidéo sur alarme native</small></td>
+        <td class="td-risco">Gamme VUpoint (caméras IP Risco)<br><small>Intégration dans l'écosystème Risco</small></td>
+        <td class="td-adv adv-egal">⚖️ COMPARABLE</td>
+      </tr>
+      <tr class="score-row">
+        <td><strong>SCORE DE SECTION</strong></td>
+        <td class="score-ajax">⭐⭐⭐⭐½ — 4.5 / 5</td>
+        <td class="score-risco">⭐⭐⭐ — 3 / 5</td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 4 - TEMPS D'INSTALLATION
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">⏱️</span>
+    4 - TEMPS D'INSTALLATION &amp; RENTABILITÉ
+  </div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="th-crit">Critère</th>
+        <th class="th-ajax">✅ AJAX</th>
+        <th class="th-risco">🔷 RISCO</th>
+        <th class="th-adv">Avantage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-crit">Architecture câblage</td>
+        <td class="td-ajax">Sans fil Jeweller : <strong>aucun câblage</strong><br><small>Montage snap / adhésif / vis — aucun BUS</small></td>
+        <td class="td-risco">LightSYS Air : sans fil (868MHz)<br>LightSYS+ : BUS RS485 pour modules additionnels<br><small class="warn">Tirage de câble si extension filaire</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Installation résidentielle (~10 zones)</td>
+        <td class="td-ajax">⚡ <strong>2–4 heures</strong> technicien<br><small>Pose + config smartphone + cloud immédiat</small></td>
+        <td class="td-risco">🕐 <strong>4–7 heures</strong> technicien<br><small class="warn">Config LightSYS Air (app) + tests + batterie externe</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">2× plus rapide</small></td>
+      </tr>
+      <tr>
+        <td class="td-crit">Installation tertiaire (~30 zones)</td>
+        <td class="td-ajax">⚡ <strong>1–2 jours</strong><br><small>100% sans fil, config à distance possible</small></td>
+        <td class="td-risco">🕐 <strong>2–4 jours</strong><br><small class="warn">LightSYS+ : modules à câbler + config PC obligatoire sur site</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">Outils nécessaires</td>
+        <td class="td-ajax">Smartphone + application Ajax PRO<br><small>+ visserie standard</small></td>
+        <td class="td-risco">Smartphone (LightSYS Air basique)<br>OU PC Windows + RisControl (LightSYS+)<br><small class="warn">+ outillage câblage pour modules BUS</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr>
+        <td class="td-crit">Modification post-installation</td>
+        <td class="td-ajax"><strong>À distance depuis smartphone</strong><br><small>Sans déplacement, système actif pendant modification</small></td>
+        <td class="td-risco">Via RisCloud à distance (si abonnement actif)<br><small class="warn">Mode SERVICE requis — système coupé pendant modification</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="row-even">
+        <td class="td-crit">SAV / intervention technique</td>
+        <td class="td-ajax"><strong>Diagnostic complet à distance</strong><br><small>Logs temps réel, supervision 30 sec, sans déplacement</small></td>
+        <td class="td-risco">Diagnostic via RisCloud si connecté<br><small class="warn">Souvent déplacement nécessaire pour les pannes module</small></td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+      <tr class="score-row">
+        <td><strong>SCORE DE SECTION</strong></td>
+        <td class="score-ajax">⭐⭐⭐⭐⭐ — 5 / 5</td>
+        <td class="score-risco">⭐⭐ — 2.5 / 5</td>
+        <td class="td-adv adv-ajax">✅ AJAX</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 5 - SCÉNARIOS TARIFAIRES
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">💰</span>
+    5 - COMPARAISON TARIFAIRE — SCÉNARIOS TYPES (CHF, prix installateur)
+  </div>
+
+  <div class="alert-box alert-blue" style="border-radius:0;margin-bottom:0;">
+    <span class="alert-icon">ℹ️</span>
+    <div>
+      Tous les prix en CHF (<strong>colonne "Installer Price"</strong> de la liste Risco DACH Février 2026).
+      <br>Ajax = prix tout compris (ETH + double SIM 4G + batterie interne inclus dans le Hub).
+      <br>Risco = centrale complète avec module 4G + batterie externe inclus dans le total de chaque scénario.
+    </div>
+  </div>
+
+  <!-- Scénario 1 -->
+  <div style="margin-top:20px;">
+    <div class="scenario-title">🏠 RÉSIDENTIEL STANDARD — 6 PIR + 4 contacts + 1 clavier + 2 sirènes (100% sans fil)</div>
+    <table class="price-table">
+      <thead>
+        <tr style="background:#F4F6F7;">
+          <th style="text-align:left;width:26%">Composant</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:28%">Produit AJAX</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
+          <th style="width:4%;border:none;background:white;"></th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:22%">Produit RISCO</th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:10%">CHF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Centrale + communication + batterie</td>
+          <td class="td-ajax">Hub 2 (4G) Jeweller<br><small>✅ ETH + Wi-Fi + 2×SIM 4G + batterie inclus</small></td>
+          <td class="price-ajax">115</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">LightSYS Air (224) + 4G RW432G4V1EUA (184) + batterie (40)<br><small>⚠ 3 éléments séparés</small></td>
+          <td class="price-risco">448</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Détecteur PIR ×6 (sans fil)</td>
+          <td class="td-ajax">MotionProtect Jeweller ×6</td>
+          <td class="price-ajax">282</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">iWAVE PET/PIR ×6 (RWX95P86800D)<br><small>67 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">402</td>
+        </tr>
+        <tr>
+          <td>Contact ouverture ×4 (sans fil)</td>
+          <td class="td-ajax">Superior DoorProtect Jeweller ×4</td>
+          <td class="price-ajax">124</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">Contact X73 ×4 (RWX73M86800D)<br><small>47 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">188</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Clavier (sans fil)</td>
+          <td class="td-ajax">Keypad TouchScreen Jeweller</td>
+          <td class="price-ajax">206</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL Panda Keypad (RW432KPP802A)</td>
+          <td class="price-risco">134</td>
+        </tr>
+        <tr>
+          <td>Sirène intérieure (sans fil)</td>
+          <td class="td-ajax">Superior HomeSiren Jeweller</td>
+          <td class="price-ajax">47</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL Indoor Sounder Round (RWS42086800B)</td>
+          <td class="price-risco">154</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Sirène extérieure (sans fil)</td>
+          <td class="td-ajax">StreetSiren Jeweller</td>
+          <td class="price-ajax">85</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL Lumin8 outdoor (RWS401A8000B)</td>
+          <td class="price-risco">168</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL MATÉRIEL</td>
+          <td class="ajax-total">TOTAL AJAX</td>
+          <td class="ajax-total">CHF 859</td>
+          <td style="background:var(--dark);border:none;"></td>
+          <td class="risco-total">TOTAL RISCO</td>
+          <td class="risco-total">CHF 1&thinsp;494</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 635 (−43%)<br><small>Hub ALL-IN CHF 115 vs centrale Risco 3 éléments CHF 448</small></td>
+          <td style="border:none;background:white;"></td>
+          <td colspan="2" style="background:var(--red-warn);color:var(--orange);font-size:11px;padding:8px;">⚠ Risco : 3 produits séparés pour la centrale (sans batterie de base)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Scénario 2 -->
+  <div style="margin-top:20px;">
+    <div class="scenario-title">🏢 TERTIAIRE — 20 PIR DT + 8 contacts + claviers + répéteurs + photo-vérification</div>
+    <table class="price-table">
+      <thead>
+        <tr style="background:#F4F6F7;">
+          <th style="text-align:left;width:26%">Composant</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:28%">Produit AJAX</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
+          <th style="width:4%;border:none;background:white;"></th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:22%">Produit RISCO</th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:10%">CHF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Centrale + communication + batterie</td>
+          <td class="td-ajax">Superior Hub Hybrid (4G)<br><small>✅ ETH + 2×SIM 4G + batterie + Grade 2/3</small></td>
+          <td class="price-ajax">395</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">LightSYS+ PCB (208) + boîtier (77) + mod. radio (84) + 4G (184) + bat. (40)<br><small>⚠ 5 éléments séparés</small></td>
+          <td class="price-risco">593</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Détecteur DT PIR ×20</td>
+          <td class="td-ajax">Superior MotionProtect Plus Jeweller ×20</td>
+          <td class="price-ajax">1&thinsp;336</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">iWave DT PET/PIR ×20 (RWX95DTP800C)<br><small>97 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">1&thinsp;943</td>
+        </tr>
+        <tr>
+          <td>Contact ouverture ×8</td>
+          <td class="td-ajax">Superior DoorProtect Plus Jeweller ×8</td>
+          <td class="price-ajax">368</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">Contact X73 ×8 (RWX73M86800D)<br><small>47 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">375</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Claviers ×2 + Sirènes</td>
+          <td class="td-ajax">Keypad TS ×2 + HomeSiren ×2 + StreetSiren Plus</td>
+          <td class="price-ajax">646</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL Panda KP ×2 (268) + Indoor Sounder ×2 (308) + Lumin8 ×1 (168)</td>
+          <td class="price-risco">744</td>
+        </tr>
+        <tr>
+          <td>Répéteur radio ×2</td>
+          <td class="td-ajax">ReX 2 Jeweller ×2</td>
+          <td class="price-ajax">234</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL 2W Repeater ×2 (RW132XWR800A)<br><small>114 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">228</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Levée de doute photo ×4</td>
+          <td class="td-ajax">Superior MotionCam (PhOD) ×4<br><small>✅ Photo sur alarme intégrée</small></td>
+          <td class="price-ajax">480</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">eyeWAVE Pet Cam ×4 (RWX95CMP800C)<br><small>134 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">536</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL MATÉRIEL</td>
+          <td class="ajax-total">TOTAL AJAX</td>
+          <td class="ajax-total">CHF 3&thinsp;459</td>
+          <td style="background:var(--dark);border:none;"></td>
+          <td class="risco-total">TOTAL RISCO</td>
+          <td class="risco-total">CHF 4&thinsp;419</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 960 (−22%)<br><small>Centrale Ajax inclut tout — Risco nécessite 5 modules séparés</small></td>
+          <td style="border:none;background:white;"></td>
+          <td colspan="2" style="background:var(--red-warn);color:var(--orange);font-size:11px;padding:8px;">⚠ Hors coût abonnement RisCloud + formation RisControl</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Scénario 3 -->
+  <div style="margin-top:20px;">
+    <div class="scenario-title">🏭 GRANDE INSTALLATION — 40 PIR + 20 contacts + 3 claviers + 4 répéteurs</div>
+    <table class="price-table">
+      <thead>
+        <tr style="background:#F4F6F7;">
+          <th style="text-align:left;width:26%">Composant</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:28%">Produit AJAX</th>
+          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
+          <th style="width:4%;border:none;background:white;"></th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:22%">Produit RISCO</th>
+          <th style="background:var(--risco-bg);color:var(--risco-blue);width:10%">CHF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Centrale + communication + batterie</td>
+          <td class="td-ajax">Superior Hub Hybrid 2<br><small>✅ ETH + 2×SIM 4G + Grade 3 + batterie</small></td>
+          <td class="price-ajax">433</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">LightSYS+ PCB (208) + boîtier métal (107) + mod. radio (84) + 4G (184) + bat. (40)<br><small>⚠ 5 éléments séparés</small></td>
+          <td class="price-risco">623</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Détecteur DT PIR ×40</td>
+          <td class="td-ajax">Superior MotionProtect Plus Jeweller ×40</td>
+          <td class="price-ajax">2&thinsp;672</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">iWave DT PET/PIR ×40 (RWX95DTP800C)<br><small>97 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">3&thinsp;886</td>
+        </tr>
+        <tr>
+          <td>Contact ouverture ×20</td>
+          <td class="td-ajax">Superior DoorProtect Plus Jeweller ×20</td>
+          <td class="price-ajax">921</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">Contact X73 ×20 (RWX73M86800D)<br><small>47 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">938</td>
+        </tr>
+        <tr style="background:#FAFAFA;">
+          <td>Claviers ×3 + Sirènes</td>
+          <td class="td-ajax">Keypad TS ×3 + Superior StreetSiren Plus ×2</td>
+          <td class="price-ajax">894</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL Panda KP ×3 (402) + Indoor ×3 (462) + Lumin8 ×2 (336)</td>
+          <td class="price-risco">1&thinsp;200</td>
+        </tr>
+        <tr>
+          <td>Répéteur radio ×4</td>
+          <td class="td-ajax">ReX 2 Jeweller ×4</td>
+          <td class="price-ajax">468</td>
+          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
+          <td class="td-risco">WL 2W Repeater ×4 (RW132XWR800A)<br><small>114 CHF/pièce (installer price)</small></td>
+          <td class="price-risco">456</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL MATÉRIEL</td>
+          <td class="ajax-total">TOTAL AJAX Superior</td>
+          <td class="ajax-total">CHF 5&thinsp;388</td>
+          <td style="background:var(--dark);border:none;"></td>
+          <td class="risco-total">TOTAL RISCO</td>
+          <td class="risco-total">CHF 7&thinsp;103</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 1&thinsp;715 (−24%)<br><small>Avec installation 2× plus rapide, l'écart total augmente encore</small></td>
+          <td style="border:none;background:white;"></td>
+          <td colspan="2" style="background:var(--red-warn);color:var(--orange);font-size:11px;padding:8px;">⚠ Portée 868MHz Risco oblige davantage de répéteurs sur grands sites</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Note coût total -->
+  <div class="alert-box alert-green" style="margin-top:20px;">
+    <span class="alert-icon">💡</span>
+    <div>
+      <strong>Coût total d'installation (matériel + main d'œuvre) à CHF 80/h :</strong>
+      <br>→ <strong>Résidentiel :</strong> Ajax 859 + 3h (240) = <strong>CHF 1&thinsp;099</strong> vs Risco 1&thinsp;494 + 6h (480) = <strong>CHF 1&thinsp;974</strong> → <strong style="color:#c0392b;">Ajax −CHF 875 moins cher (−44%)</strong>
+      <br>→ <strong>Tertiaire :</strong> Ajax 3&thinsp;459 + 12h (960) = <strong>CHF 4&thinsp;419</strong> vs Risco 4&thinsp;419 + 24h (1&thinsp;920) = <strong>CHF 6&thinsp;339</strong> → <strong style="color:#c0392b;">Ajax −CHF 1&thinsp;920 moins cher (−30%)</strong>
+      <br>→ <strong>Grande installation :</strong> Ajax 5&thinsp;388 + 24h (1&thinsp;920) = <strong>CHF 7&thinsp;308</strong> vs Risco 7&thinsp;103 + 48h (3&thinsp;840) = <strong>CHF 10&thinsp;943</strong> → <strong style="color:#c0392b;">Ajax −CHF 3&thinsp;635 moins cher (−33%)</strong>
+      <br><small>Prix installateur DACH Feb 2026. Main d'œuvre estimée : résidentiel 3h/6h — tertiaire 12h/24h — grande installation 24h/48h. Ajax est moins cher sur <strong>chaque scénario</strong> grâce à la productivité installateur (2× plus rapide) et la communication ALL-IN incluse.</small>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECTION 6 - 5 ARGUMENTS DÉCISIFS
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏆</span>
+    6 - LES 5 ARGUMENTS DÉCISIFS POUR VOTRE CLIENT
+  </div>
+  <div class="args-grid" style="margin-top:4px;">
+    <div class="arg-card">
+      <div class="arg-num">Argument 1</div>
+      <div class="arg-title">📡 Communication ALL-IN — 1 produit, 1 prix</div>
+      <div class="arg-text">
+        Le Hub Ajax intègre <strong>Ethernet + Wi-Fi + Double SIM 4G + batterie</strong> dans un seul boîtier à CHF 115. Chez Risco, obtenir le même niveau de communication nécessite 3 à 5 composants séparés (centrale + module 4G + module radio + boîtier + batterie). Pas de mauvaise surprise à la commande.
+      </div>
+    </div>
+    <div class="arg-card">
+      <div class="arg-num">Argument 2</div>
+      <div class="arg-title">📡 Portée sans fil 20× supérieure</div>
+      <div class="arg-text">
+        La technologie Jeweller d'Ajax atteint <strong>2 000 m en espace libre</strong> contre environ 100–150 m pour la 868MHz Risco. Sur un site industriel ou tertiaire, cela signifie moins de répéteurs, moins de complexité, moins de coût. Avec Ajax, un seul répéteur suffit là où Risco en nécessite trois ou quatre.
+      </div>
+    </div>
+    <div class="arg-card">
+      <div class="arg-num">Argument 3</div>
+      <div class="arg-title">🔒 Grade 3 sans fil — exclusivité Ajax Superior</div>
+      <div class="arg-text">
+        Ajax Superior est la <strong>seule gamme certifiée Grade 3 EN 50131 en 100% sans fil</strong>. Risco LightSYS Air est limité au Grade 2, et le LightSYS+ en Grade 3 nécessite du câblage BUS supplémentaire. Pour vos clients banques, assurances ou sites sensibles, Ajax Superior est l'unique solution sans fil qualifiante.
+      </div>
+    </div>
+    <div class="arg-card">
+      <div class="arg-num">Argument 4</div>
+      <div class="arg-title">⚡ Installation 2× plus rapide = plus de chantiers</div>
+      <div class="arg-text">
+        Sans câblage BUS, sans PC Windows obligatoire, sans mode SERVICE : une installation résidentielle Ajax se réalise en <strong>3h contre 6h pour Risco</strong>. Avec Ajax, votre équipe peut réaliser 2 chantiers par jour au lieu d'un. Sur un an, c'est une augmentation significative de votre capacité de facturation.
+      </div>
+    </div>
+    <div class="arg-card" style="grid-column: span 2;">
+      <div class="arg-num">Argument 5</div>
+      <div class="arg-title">🚀 Système toujours actif + SAV zéro déplacement</div>
+      <div class="arg-text">
+        Ajax ne nécessite <strong>jamais de mode SERVICE</strong> : toutes les modifications se font en temps réel, système actif, depuis un smartphone. Risco impose le mode Walk Test (système coupé) pour chaque modification. De plus, le diagnostic Ajax est disponible en temps réel à distance : supervision toutes les 30 secondes, logs complets, mise à jour firmware automatique. <strong>Résultat : zéro déplacement SAV inutile</strong>, client satisfait, technicien libre pour d'autres missions.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SCORE GLOBAL
+══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📈</span>
+    BILAN GLOBAL
+  </div>
+  <div class="two-col" style="margin-top:4px;">
+    <div style="background:var(--ajax-bg);border:2px solid var(--ajax-red);border-radius:6px;padding:24px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;color:var(--ajax-red);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+        <svg width="60" height="16" viewBox="0 0 180 50" style="vertical-align:middle;margin-right:8px;background:black;border-radius:2px;">
+          <g fill="white" transform="scale(0.7) translate(12,8)">
+            <polygon points="10,38 21,12 26,12 15,38"/>
+            <polygon points="21,12 26,12 22,22 17,22"/>
+            <polygon points="16,26 22,26 20,38 14,38"/>
+            <rect x="32" y="12" width="5" height="14"/>
+            <path d="M29 26 Q28 38 33 38 Q38 38 37 26Z" fill="white"/>
+            <polygon points="44,38 55,12 60,12 49,38"/>
+            <polygon points="55,12 60,12 56,22 51,22"/>
+            <polygon points="50,26 56,26 54,38 48,38"/>
+            <polygon points="65,12 70,12 80,25 75,25"/>
+            <polygon points="75,25 80,25 70,38 65,38"/>
+            <polygon points="75,12 80,12 70,25 65,25"/>
+            <polygon points="65,25 70,25 80,38 75,38"/>
+          </g>
+        </svg>
+        AJAX SYSTEMS
+      </div>
+      <div style="font-size:52px;font-weight:900;color:var(--ajax-red);">24.5</div>
+      <div style="font-size:16px;color:var(--dark);margin-bottom:4px;">/ 25 points</div>
+      <div style="font-size:22px;">⭐⭐⭐⭐⭐</div>
+      <div style="margin-top:12px;font-size:12px;color:var(--dark);line-height:1.7;">
+        Config &amp; mise en service : 5/5<br>
+        Communication intégrée : 5/5<br>
+        Capacités techniques : 4.5/5<br>
+        Installation &amp; rentabilité : 5/5<br>
+        Expérience utilisateur final : 5/5
+      </div>
+    </div>
+    <div style="background:var(--risco-bg);border:2px solid var(--risco-blue);border-radius:6px;padding:24px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;color:var(--risco-blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+        <svg width="70" height="18" viewBox="0 0 80 22">
+          <rect width="80" height="22" rx="2" fill="#005BAA"/>
+          <text x="40" y="15" font-family="Arial" font-weight="800" font-size="13"
+                fill="white" text-anchor="middle" letter-spacing="2">RISCO</text>
+        </svg>
+      </div>
+      <div style="font-size:52px;font-weight:900;color:var(--risco-blue);">12</div>
+      <div style="font-size:16px;color:var(--dark);margin-bottom:4px;">/ 25 points</div>
+      <div style="font-size:22px;">⭐⭐</div>
+      <div style="margin-top:12px;font-size:12px;color:var(--dark);line-height:1.7;">
+        Config &amp; mise en service : 2/5<br>
+        Communication intégrée : 2/5<br>
+        Capacités techniques : 3/5<br>
+        Installation &amp; rentabilité : 2.5/5<br>
+        Expérience utilisateur final : 2.5/5
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box alert-yellow" style="margin-top:20px;">
+    <span class="alert-icon">📌</span>
+    <div>
+      <strong>Note sur les prix :</strong> Prix basés sur le tarif installateur Risco DACH Feb 2026 (colonne « Installer Price »).
+      Ajax est moins cher sur <strong>les 3 scénarios</strong> — matériel seul et coût total (matériel + main d'œuvre) :
+      −44% résidentiel, −30% tertiaire, −33% grande installation.
+      La communication ALL-IN intégrée (ETH+WiFi+4G+batterie) et la productivité 2× supérieure font d'Ajax la solution la plus rentable pour l'installateur.
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  Document préparé par <strong>Sertek Security &amp; Comfort</strong> — Distributeur officiel Ajax Systems —
+  Sources : Ajax Academy, Documentation technique Risco, Risco DACH Price List Feb 2026, Tarifs installateurs Sertek — <strong>Mars 2026</strong>
+</footer>
+
+</div><!-- end .page -->
+</body>
+</html>
