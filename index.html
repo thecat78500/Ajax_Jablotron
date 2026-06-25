@@ -3,1062 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comparatif Ajax vs Jablotron - Sertek</title>
+<title>Sertek — Présentations clients</title>
 <style>
-  /* ═══════════════════════════════════════════════════════
-     VARIABLES - modifiez les couleurs ici
-  ═══════════════════════════════════════════════════════ */
   :root {
-    --ajax-red:    #CC0000;
-    --ajax-bg:     #FDECEA;
-    --jablo-blue:  #1A3E72;
-    --jablo-bg:    #E8EEF8;
-    --jablo-gold:  #F0A500;
-    --green:       #1E8449;
-    --green-bg:    #D5F5E3;
-    --orange:      #D35400;
-    --orange-bg:   #FDEBD0;
-    --dark:        #1C2833;
-    --header-bg:   #1C2833;
-    --grey:        #85929E;
-    --grey-bg:     #F4F6F7;
-    --white:       #FFFFFF;
-    --yellow-bg:   #FFFDE7;
-    --red-warn:    #FFEBEE;
-    --font:        'Segoe UI', Arial, sans-serif;
+    --bg:      #0d1525;
+    --bg2:     #131e30;
+    --bg3:     #1a2840;
+    --border:  rgba(255,255,255,0.08);
+    --text:    #e8ecf4;
+    --text2:   rgba(232,236,244,0.55);
+    --orange:  #f06800;
+    --orange2: #e05500;
+    --ajax:    #c8000f;
+    --green:   #22c55e;
+    --font:    'Segoe UI', system-ui, sans-serif;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); }
 
-  body {
-    font-family: var(--font);
-    background: #ECEFF1;
-    color: var(--dark);
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  .page { max-width: 1200px; margin: 0 auto; background: white; }
-
-  /* ── PRINT ── */
-  @media print {
-    body { background: white; font-size: 11px; }
-    .page { max-width: 100%; box-shadow: none; }
-    .no-print { display: none; }
-    .section { page-break-inside: avoid; }
-  }
-
-  /* ══════════════════════════════════════════════════════
-     HEADER
-  ══════════════════════════════════════════════════════ */
-  .header {
-    background: var(--dark);
-    padding: 28px 40px 20px;
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .logo-zone {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-
-  /* ── LOGO AJAX (SVG inline) ── */
-  .logo-ajax { height: 44px; width: auto; }
-
-  /* ── LOGO JABLOTRON (SVG inline) ── */
-  .logo-jablo { height: 44px; width: auto; }
-
-  /* ── LOGO SERTEK (SVG inline) ── */
-  .logo-sertek { height: 52px; width: auto; }
-
-  .logo-sep {
-    width: 1px; height: 40px;
-    background: rgba(255,255,255,0.2);
-  }
-
-  .header-title {
-    text-align: right;
-    color: white;
-  }
-  .header-title h1 {
-    font-size: 18px; font-weight: 700; letter-spacing: 0.5px;
-  }
-  .header-title p {
-    font-size: 11px; color: rgba(255,255,255,0.6);
-    margin-top: 3px; letter-spacing: 1px; text-transform: uppercase;
-  }
-
-  .header-badge {
-    background: var(--ajax-red);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 6px;
-    display: inline-block;
-  }
-
-  /* ══════════════════════════════════════════════════════
-     INTRO BANNER
-  ══════════════════════════════════════════════════════ */
-  .intro-banner {
-    background: linear-gradient(135deg, #CC0000 0%, #8B0000 100%);
-    color: white;
-    padding: 24px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     gap: 24px;
-    flex-wrap: wrap;
   }
-  .intro-banner h2 {
-    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
-  }
-  .intro-banner p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
-  .score-pill {
-    background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 8px;
-    padding: 10px 20px;
+  .topbar-logos { display: flex; align-items: center; gap: 20px; }
+  .topbar-logos img { height: 18px; width: auto; object-fit: contain; }
+  .topbar-sep { width: 1px; height: 28px; background: var(--border); }
+  .topbar-title { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
+
+  /* ── HERO ── */
+  .hero {
     text-align: center;
-    min-width: 160px;
+    padding: 64px 40px 48px;
+    background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
   }
-  .score-pill .big { font-size: 32px; font-weight: 900; }
-  .score-pill .small { font-size: 11px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+  .hero-label {
+    font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 4vw, 36px); font-weight: 900; letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .hero p { font-size: 15px; color: var(--text2); max-width: 520px; margin: 0 auto; line-height: 1.6; }
 
-  /* ══════════════════════════════════════════════════════
-     CONTENT WRAPPER
-  ══════════════════════════════════════════════════════ */
-  .content { padding: 32px 40px; }
+  /* ── CONTENT ── */
+  .content { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
 
-  /* ══════════════════════════════════════════════════════
-     SECTION HEADERS
-  ══════════════════════════════════════════════════════ */
-  .section { margin-bottom: 36px; }
+  /* ── GROUP ── */
+  .group { margin-bottom: 48px; }
+  .group-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .group-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .group-title { font-size: 16px; font-weight: 800; letter-spacing: -0.2px; }
+  .group-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
 
-  .section-title {
-    background: var(--header-bg);
-    color: white;
-    padding: 12px 20px;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 6px 6px 0 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    letter-spacing: 0.3px;
+  /* ── CLIENT LOGO ── */
+  .client-logo-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border-radius: 8px; padding: 4px 12px;
+    margin-left: 4px;
   }
-  .section-title .icon { font-size: 18px; }
+  .client-logo-pill img { height: 18px; width: auto; object-fit: contain; }
 
-  /* ══════════════════════════════════════════════════════
-     COMPARISON TABLE
-  ══════════════════════════════════════════════════════ */
-  .comp-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .comp-table th {
-    padding: 10px 14px;
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-align: center;
-    border: 1px solid #DDD;
-  }
-  .th-crit  { background: var(--dark); color: white; width: 22%; text-align: left; }
-  .th-ajax  { background: var(--ajax-red); color: white; width: 32%; }
-  .th-jablo { background: var(--jablo-blue); color: white; width: 32%; }
-  .th-adv   { background: var(--dark); color: white; width: 14%; }
+  /* ── CARDS GRID ── */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } }
 
-  .comp-table td {
-    padding: 10px 14px;
-    border: 1px solid #E0E0E0;
-    vertical-align: top;
+  /* ── CARD ── */
+  .card {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
   }
-  .td-crit  { font-weight: 600; font-size: 12px; background: var(--grey-bg); }
-  .td-ajax  { background: var(--ajax-bg); }
-  .td-jablo { background: var(--jablo-bg); }
-  .td-adv   { text-align: center; font-weight: 700; font-size: 12px; }
+  .card:hover {
+    border-color: var(--orange);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(240,104,0,0.15);
+  }
+  .card-theme-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; border: 1px solid var(--border);
+  }
+  .card-theme-icon.dark-icon { background: #0d1525; }
+  .card-theme-icon.light-icon { background: #f4f6f9; }
+  .card-body { flex: 1; min-width: 0; }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .card-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .tag-dark  { background: rgba(255,255,255,0.08); color: var(--text2); }
+  .tag-light { background: rgba(240,104,0,0.12); color: var(--orange); }
+  .tag-de    { background: rgba(34,197,94,0.12); color: var(--green); }
+  .tag-fr    { background: rgba(200,0,15,0.12); color: #ff6b70; }
 
-  .row-even .td-crit  { background: #F9F9F9; }
-  .row-even .td-ajax  { background: #FEF0EF; }
-  .row-even .td-jablo { background: #EEF3FB; }
+  .card-arrow { color: var(--text2); font-size: 18px; flex-shrink: 0; transition: color 0.18s; }
+  .card:hover .card-arrow { color: var(--orange); }
 
-  .adv-ajax  { color: var(--ajax-red); background: var(--ajax-bg); }
-  .adv-jablo { color: var(--jablo-blue); background: var(--jablo-bg); }
-  .adv-egal  { color: var(--orange); background: var(--yellow-bg); }
-
-  .check { color: var(--green); font-weight: 700; }
-  .warn  { color: var(--orange); font-weight: 700; }
-  .cross { color: var(--ajax-red); font-weight: 700; }
-
-  .score-row td {
-    background: var(--grey-bg);
-    font-weight: 700;
-    font-size: 13px;
-    padding: 12px 14px;
-    border-top: 2px solid #CCC;
-  }
-  .score-ajax  { color: var(--ajax-red);  background: var(--ajax-bg)  !important; text-align: center; }
-  .score-jablo { color: var(--jablo-blue); background: var(--jablo-bg) !important; text-align: center; }
-
-  /* ══════════════════════════════════════════════════════
-     PRICING TABLE
-  ══════════════════════════════════════════════════════ */
-  .price-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .price-table th {
-    padding: 10px 14px;
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border: 1px solid #DDD;
-  }
-  .price-table td {
-    padding: 9px 14px;
-    border: 1px solid #E0E0E0;
-    vertical-align: middle;
-  }
-  .price-table .total-row td {
-    background: var(--dark) !important;
-    color: white;
-    font-weight: 800;
-    font-size: 14px;
-    border-top: 2px solid #666;
-  }
-  .price-table .total-row .ajax-total {
-    background: var(--ajax-red) !important;
-    color: white;
-    text-align: right;
-  }
-  .price-table .total-row .jablo-total {
-    background: var(--jablo-blue) !important;
-    color: white;
-    text-align: right;
-  }
-  .price-table .total-row .delta-cell {
-    text-align: center;
-  }
-  .delta-green { background: var(--green-bg) !important; color: var(--green); font-weight: 700; text-align: center; }
-  .delta-red   { background: var(--red-warn) !important; color: var(--orange); font-weight: 700; text-align: center; }
-  .price-ajax  { background: var(--ajax-bg) !important; color: var(--ajax-red); font-weight: 700; text-align: right; }
-  .price-jablo { background: var(--jablo-bg) !important; color: var(--jablo-blue); font-weight: 700; text-align: right; }
-  .excl-ajax   { background: var(--green-bg) !important; color: var(--green); font-style: italic; }
-
-  /* ══════════════════════════════════════════════════════
-     ARGUMENT CARDS
-  ══════════════════════════════════════════════════════ */
-  .args-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 4px;
-  }
-  .arg-card {
-    background: var(--green-bg);
-    border: 1px solid #A9DFBF;
-    border-left: 5px solid var(--green);
-    border-radius: 6px;
-    padding: 16px 18px;
-  }
-  .arg-card .arg-num {
-    font-size: 11px; font-weight: 800;
-    color: var(--green); text-transform: uppercase;
-    letter-spacing: 1px; margin-bottom: 6px;
-  }
-  .arg-card .arg-title {
-    font-size: 14px; font-weight: 800;
-    color: var(--dark); margin-bottom: 8px;
-  }
-  .arg-card .arg-text {
-    font-size: 12px; color: #2C3E50; line-height: 1.6;
+  /* ── DIVIDER ── */
+  .divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 0 0 48px;
   }
 
-  /* ══════════════════════════════════════════════════════
-     ALERT BOXES
-  ══════════════════════════════════════════════════════ */
-  .alert-box {
-    border-radius: 6px;
-    padding: 14px 18px;
-    margin-bottom: 16px;
-    font-size: 12.5px;
-    line-height: 1.6;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .alert-green  { background: var(--green-bg); border: 1px solid #A9DFBF; }
-  .alert-orange { background: var(--orange-bg); border: 1px solid #F5CBA7; }
-  .alert-red    { background: var(--red-warn); border: 1px solid #F1948A; }
-  .alert-blue   { background: var(--jablo-bg); border: 1px solid #AED6F1; }
-  .alert-yellow { background: var(--yellow-bg); border: 1px solid #F9E79F; }
-
-  /* ══════════════════════════════════════════════════════
-     SCENARIO HEADER
-  ══════════════════════════════════════════════════════ */
-  .scenario-title {
-    background: #2C3E50;
-    color: white;
-    padding: 10px 16px;
-    font-weight: 700;
-    font-size: 13px;
-    border-radius: 4px 4px 0 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* ══════════════════════════════════════════════════════
-     FOOTER
-  ══════════════════════════════════════════════════════ */
+  /* ── FOOTER ── */
   .footer {
-    background: var(--dark);
-    color: rgba(255,255,255,0.5);
-    padding: 20px 40px;
-    text-align: center;
-    font-size: 11px;
-    letter-spacing: 0.3px;
+    text-align: center; padding: 24px;
+    font-size: 11px; color: var(--text2);
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.5px;
   }
-  .footer strong { color: rgba(255,255,255,0.8); }
-
-  /* ══════════════════════════════════════════════════════
-     UTILITY
-  ══════════════════════════════════════════════════════ */
-  .tag-ajax  { background: var(--ajax-red); color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
-  .tag-jablo { background: var(--jablo-blue); color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
-  .tag-ok    { background: var(--green); color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
-  .tag-warn  { background: var(--orange); color: white; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; }
-
-  small { font-size: 11px; color: var(--grey); }
-  br { line-height: 2; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 900px) {
-    .two-col { grid-template-columns: 1fr; }
-    .args-grid { grid-template-columns: 1fr; }
-    .header { padding: 20px; }
-    .content { padding: 20px; }
-  }
+  .footer strong { color: var(--text); }
 </style>
 </head>
 <body>
-<div class="page">
 
-<!-- ═══════════════════════════════════════════════════════
-     HEADER - 3 logos + titre
-     Pour remplacer un logo : modifiez le SVG inline
-     ou remplacez <svg...> par <img src="votre-logo.png" class="logo-xxx">
-════════════════════════════════════════════════════════ -->
-<header class="header">
-  <div class="logo-zone">
-
-    <!-- ── LOGO SERTEK ── -->
-	<img src="images/logo_Sertek.png" class="logo-sertek" style="height:18px;">
-
-    <div class="logo-sep"></div>
-
-    <!-- ── LOGO AJAX ── -->
-    <img src="images/logo_Ajax.png" class="logo-ajax" style="height:10px;">
-
-    <div class="logo-sep"></div>
-
-    <!-- ── LOGO JABLOTRON ── -->
-	<img src="images/logo_Jablotron.png" class="logo-jablo" style="height:10px;">
-
+<div class="topbar">
+  <div class="topbar-logos">
+    <img src="images/logo_sertek.png" alt="Sertek">
+    <div class="topbar-sep"></div>
+    <span class="topbar-title">Présentations clients</span>
   </div>
-
-  <div class="header-title">
-    <h1>Comparatif Technique &amp; Commercial</h1>
-    <p>Analyse complète pour installateurs professionnels</p>
-    <span class="header-badge">Édition Mars 2026</span>
-  </div>
-</header>
-
-<!-- ═══════════════════════════════════════════════════════
-     INTRO BANNER
-════════════════════════════════════════════════════════ -->
-<div class="intro-banner">
-  <div>
-    <h2>Pourquoi choisir Ajax Systems ?</h2>
-    <p>Analyse objective pour accompagner vos clients dans le choix de leur solution de sécurité</p>
-  </div>
-  <div style="display:flex;gap:16px;flex-wrap:wrap;">
-    <div class="score-pill">
-      <div class="big">24.5<span style="font-size:10px">/25</span></div>
-      <div class="small">Score Ajax</div>
-    </div>
-    <div class="score-pill" style="background:rgba(26,62,114,0.4);border-color:rgba(255,255,255,0.2);">
-      <div class="big">11<span style="font-size:10px">/25</span></div>
-      <div class="small">Score Jablotron</div>
-    </div>
-  </div>
+  <img src="images/logo_Ajax.png" alt="Ajax" style="height:12px;opacity:0.6;">
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     CONTENT
-════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-label">Sertek Security &amp; Comfort</div>
+  <h1>Comparatif Ajax / Jablotron</h1>
+  <p>Choisissez la version adaptée à votre client — thème sombre ou clair, langue FR ou DE.</p>
+</div>
+
 <div class="content">
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 1 - CONFIGURATION & MISE EN SERVICE
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">🔧</span>
-    1 - CONFIGURATION &amp; MISE EN SERVICE
+  <!-- ══ GROUPE 1 : Standard FR ══ -->
+  <div class="group">
+    <div class="group-header">
+      <div class="group-icon">🇫🇷</div>
+      <div>
+        <div class="group-title">Version Standard</div>
+        <div class="group-sub">Présentation générale — sans logo client</div>
+      </div>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_Interactive.html">
+        <div class="card-theme-icon dark-icon">🌙</div>
+        <div class="card-body">
+          <div class="card-title">Thème sombre</div>
+          <div class="card-desc">Présentation interactive 7 slides, fond noir, idéale en démonstration plein écran.</div>
+          <div class="card-tags">
+            <span class="tag tag-dark">Dark</span>
+            <span class="tag tag-fr">Français</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_Light.html">
+        <div class="card-theme-icon light-icon">☀️</div>
+        <div class="card-body">
+          <div class="card-title">Thème clair</div>
+          <div class="card-desc">Même contenu, fond blanc, mieux adaptée aux environnements lumineux ou impression.</div>
+          <div class="card-tags">
+            <span class="tag tag-light">Light</span>
+            <span class="tag tag-fr">Français</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+    </div>
   </div>
-  <table class="comp-table">
-    <thead>
-      <tr>
-        <th class="th-crit">Critère</th>
-        <th class="th-ajax">✅ AJAX</th>
-        <th class="th-jablo">🔷 JABLOTRON</th>
-        <th class="th-adv">Avantage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="td-crit">Outil de configuration</td>
-        <td class="td-ajax"><strong>Ajax PRO</strong> - Application mobile iOS &amp; Android<br><small>Gratuite, sans abonnement, cloud inclus</small><br><strong>Ajax PRO Desktop</strong> - Application Windows &amp; Mac<br><small>Gratuite, sans abonnement, cloud inclus</small></td>
-        <td class="td-jablo"><strong>MyCompany</strong> - Application mobile iOS &amp; Android<br><small>Uniquement pour Mercury</small><br><strong>F-Link</strong> - Logiciel PC Windows<br><small>Windows XP SP3 minimum requis</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Plateforme requise</td>
-        <td class="td-ajax">Smartphone (iOS ou Android)<br><small>Aucun PC nécessaire</small></td>
-        <td class="td-jablo">Ordinateur Windows pour programmer certaines les centrales<br><small class="warn">Incompatible Mac / Linux / Tablette</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr>
-        <td class="td-crit">Impact sur le système pendant config</td>
-        <td class="td-ajax"><span class="check">✔</span> Système <strong>OPÉRATIONNEL</strong> en permanence<br><small>Modifications en temps réel sans coupure</small></td>
-        <td class="td-jablo"><span class="cross">✘</span> Mode <strong>SERVICE obligatoire</strong><br><small class="warn">Système HORS SERVICE pendant toute la configuration</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Connexion lors de la config</td>
-        <td class="td-ajax">LAN - Wi-Fi / 4G - à distance possible<br><small>Connexion à distance direct</small></td>
-        <td class="td-jablo">Câble USB ou réseau local <small>(Après intégration sur le cloud)</small><br><small class="warn">Présence physique sur site obligatoire au départ</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr>
-        <td class="td-crit">Accès au logiciel</td>
-        <td class="td-ajax">Tout technicien certifié avec l'app Ajax PRO<br><small>+ code d'accès installateur</small></td>
-        <td class="td-jablo">Technicien agréé Jablotron uniquement<br><small class="warn">Compte Mycompany obligatoire + logiciel F-Link</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Mises à jour firmware</td>
-        <td class="td-ajax"><span class="check">✔</span> Automatique via le cloud<br><small>Sans intervention terrain</small></td>
-        <td class="td-jablo">Manuelle via F-Link<br><small class="warn">Intervention sur site nécessaire</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-	   <tr>
-        <td class="td-crit">Gestion des techniciens</td>
-        <td class="td-ajax">Gestion des techniciens depuis Ajax PRO Desktop<br><small>Accès aux centrales filtrées par technicien</small></td>
-        <td class="td-jablo">Gestion des techniciens depuis la page web MyCompany<br><small class="warn">Les techniciens aux ont accès à toutes les centrales</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-	  <tr class="row-even">
-        <td class="td-crit">Configuration à distance</td>
-        <td class="td-ajax"><span class="check">✔</span> Accès à toutes les centrales en même temps<br><small>En fonction des droits du technicien</small></td>
-        <td class="td-jablo">Se connecter à chaques centrales une par une<br><small class="warn">Numéro de serie ou fichier de sauvegarde nécessaire</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="score-row">
-        <td><strong>SCORE DE SECTION</strong></td>
-        <td class="score-ajax">⭐⭐⭐⭐⭐ - 5 / 5</td>
-        <td class="score-jablo">⭐ - 1 / 5</td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <hr class="divider">
+
+  <!-- ══ GROUPE 2 : EM Haustechnik FR ══ -->
+  <div class="group">
+    <div class="group-header">
+      <div class="group-icon">🏢</div>
+      <div>
+        <div class="group-title">
+          Version EM Haustechnik
+          <span class="client-logo-pill">
+            <img src="images/logo_em_haustechnik.png" alt="EM Haustechnik">
+          </span>
+        </div>
+        <div class="group-sub">Avec page de démarrage personnalisée — logo client EM Haustechnik</div>
+      </div>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_EM_Dark.html">
+        <div class="card-theme-icon dark-icon">🌙</div>
+        <div class="card-body">
+          <div class="card-title">Thème sombre</div>
+          <div class="card-desc">Splash personnalisé EM Haustechnik, fond noir, présentation en français.</div>
+          <div class="card-tags">
+            <span class="tag tag-dark">Dark</span>
+            <span class="tag tag-fr">Français</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_EM_Light.html">
+        <div class="card-theme-icon light-icon">☀️</div>
+        <div class="card-body">
+          <div class="card-title">Thème clair</div>
+          <div class="card-desc">Splash personnalisé EM Haustechnik, fond blanc, présentation en français.</div>
+          <div class="card-tags">
+            <span class="tag tag-light">Light</span>
+            <span class="tag tag-fr">Français</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_EM_Dark_DE.html">
+        <div class="card-theme-icon dark-icon">🌙</div>
+        <div class="card-body">
+          <div class="card-title">Thème sombre — Deutsch</div>
+          <div class="card-desc">Splash personnalisé EM Haustechnik, fond noir, présentation en allemand.</div>
+          <div class="card-tags">
+            <span class="tag tag-dark">Dark</span>
+            <span class="tag tag-de">Deutsch</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+      <a class="card" href="Comparatif_Ajax_Jablotron_EM_Light_DE.html">
+        <div class="card-theme-icon light-icon">☀️</div>
+        <div class="card-body">
+          <div class="card-title">Thème clair — Deutsch</div>
+          <div class="card-desc">Splash personnalisé EM Haustechnik, fond blanc, présentation en allemand.</div>
+          <div class="card-tags">
+            <span class="tag tag-light">Light</span>
+            <span class="tag tag-de">Deutsch</span>
+          </div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+    </div>
+  </div>
+
+</div><!-- .content -->
+
+<div class="footer">
+  <strong>Sertek Security &amp; Comfort</strong> &nbsp;·&nbsp; Distributeur officiel Ajax Systems &nbsp;·&nbsp; Usage interne — confidentiel
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 2 - COMMUNICATION & COÛT RÉEL
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">📡</span>
-    2 - COMMUNICATION INTÉGRÉE &amp; COÛT RÉEL
-  </div>
-
-  <div class="alert-box alert-orange" style="margin-top:0;border-radius:0;">
-    <span class="alert-icon">⚠️</span>
-    <div>
-      <strong>Règle de comparaison équitable :</strong>
-      <br>Version <strong>K seule</strong> = BUS filaire pur (pas de radio) - NON comparable avec Ajax sans fil.
-      <br>Version <strong>KR</strong> = radio inclus, MAIS LAN seul (pas de 4G) + <strong>SANS batterie</strong>.
-      <br>Pour une comparaison équitable, nous partirons sur le prix KR + module 4G + batterie externe.
-    </div>
-  </div>
-
-  <table class="comp-table">
-    <thead>
-      <tr>
-        <th class="th-crit">Critère</th>
-        <th class="th-ajax">✅ AJAX</th>
-        <th class="th-jablo">🔷 JABLOTRON</th>
-        <th class="th-adv">Avantage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="td-crit">Communication incluse dans la centrale</td>
-        <td class="td-ajax"><span class="check">✔</span> Ethernet + Wifi + Double SIM 4G LTE<br><small>TOUT inclus dans le prix du Hub</small></td>
-        <td class="td-jablo"><span class="warn">⚠</span> Ethernet seul (JA-103KR, JA-107KR)<br><small class="warn">GSM = module séparé (+153 à +228 CHF)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Batterie de secours</td>
-        <td class="td-ajax"><span class="check">✔</span> Batterie interne incluse dans TOUS les Hubs<br><small>Sauf HUB Hybrid - 16h ou 60h selon le modèle</small></td>
-        <td class="td-jablo"><span class="cross">✘</span> <strong>JA-103KR / JA-107KR vendus SANS batterie</strong><br><small class="warn">Batterie externe obligatoire EN 50131 (≈ +50–60 CHF)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr>
-        <td class="td-crit">Coût total centrale entrée de gamme (4G + radio + batterie)</td>
-        <td class="td-ajax"><strong>Superior Hub Hybrid + batterie : CHF 395</strong><br><small>ETH + 2×SIM 4G + batterie - tout compris</small></td>
-        <td class="td-jablo">JA-103KR: 219 + GSM 4G: 216 + batterie: ~20<br><strong>= Total réel: CHF 455</strong></td>
-        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">−60 CHF</small></td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Coût total centrale grande installation</td>
-        <td class="td-ajax"><strong>Superior Hub Hybrid 2 + batterie : CHF 433</strong><br><small>ETH + 2×SIM 4G + Grade 3 + Batterie</small></td>
-        <td class="td-jablo">JA-107KR: 473 + GSM 4G: 216 + batterie: ~50<br><strong>= Total réel: CHF 739</strong></td>
-        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">−306 CHF</small></td>
-      </tr>
-      <tr>
-        <td class="td-crit">Redondance de communication</td>
-        <td class="td-ajax">Quadruple path : Ethernet + Wifi + SIM1 + SIM2<br><small>Basculement automatique</small></td>
-        <td class="td-jablo">Ethernet seul (de base)<br><small class="warn">2ème path = coût additionnel module GSM</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Exception Mercury (JA-102KRY)</td>
-        <td class="td-ajax">Hub : CHF 115 - tout inclus</td>
-        <td class="td-jablo">JA-102KRY : CHF 100 - 4G + Radio inclus<br><small class="warn">Batterie optionnelle (vendue séparément)</small></td>
-        <td class="td-adv adv-egal">⚖️ PROCHE</td>
-      </tr>
-      <tr class="score-row">
-        <td><strong>SCORE DE SECTION</strong></td>
-        <td class="score-ajax">⭐⭐⭐⭐⭐ - 5 / 5</td>
-        <td class="score-jablo">⭐⭐ - 2 / 5</td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SECTION 3 - CAPACITÉS TECHNIQUES
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">📊</span>
-    3 - CAPACITÉS TECHNIQUES COMPARÉES
-  </div>
-  <table class="comp-table">
-    <thead>
-      <tr>
-        <th class="th-crit">Critère</th>
-        <th class="th-ajax">✅ AJAX</th>
-        <th class="th-jablo">🔷 JABLOTRON</th>
-        <th class="th-adv">Avantage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="td-crit">Petite installation</td>
-        <td class="td-ajax"><strong>Hub 2 :</strong> 100 appareils / 50 utilisateurs<br><small>9 groupes / ETH + 2×SIM</small></td>
-        <td class="td-jablo"><strong>JA-102KRY :</strong> ~32 appareils / 50 utilisateurs<br><small>8 sections / LAN + 4G inclus</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">3× plus d'appareils</small></td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Installation moyenne</td>
-        <td class="td-ajax"><strong>Superior Hub Hybrid :</strong> 100 appareils / 50 utilisateurs<br><small>ETH + 2×SIM + batterie</small></td>
-        <td class="td-jablo"><strong>JA-103KR :</strong> 50 appareils / 50 utilisateurs<br><small>8 sections / LAN + Radio (GSM et batterie non inclus)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">2× plus d'appareils</small></td>
-      </tr>
-      <tr>
-        <td class="td-crit">Grande installation</td>
-        <td class="td-ajax"><strong>Superior Hub Hybrid 2:</strong> 250 appareils / 200 utilisateurs<br><small>Fibra filaire + Jeweller radio / Grade 3</small></td>
-        <td class="td-jablo"><strong>JA-107KR :</strong> 230 appareils / 600 utilisateurs<br><small>15 sections / LAN + Radio (GSM et batterie non inclus)</small></td>
-        <td class="td-adv adv-egal">⚖️ COMPARABLE</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Très grande installation</td>
-        <td class="td-ajax"><strong>MegaHub :</strong> 999 appareils / 1000 utilisateurs<br><small>100 groupes / Grade 3</small></td>
-        <td class="td-jablo"><strong>Pas d'équivalent direct</strong></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr>
-        <td class="td-crit">Grade de sécurité EN 50131</td>
-        <td class="td-ajax">Grade 2 (Baseline) / <strong>Grade 3 (Superior)</strong><br><small>Ajax SEUL à proposer Grade 3 sans fil</small></td>
-        <td class="td-jablo"><strong>Grade 2 uniquement</strong><br><small class="warn">JA-103K/107K = Grade 2 (certifié EN 50131-1)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Portée sans fil</td>
-        <td class="td-ajax">Jeweller : 2 000 m en espace libre<br><small>Jusqu'à 10 modules extension radio REX 2 maximum (sans bus)</small></td>
-        <td class="td-jablo">~300 m en espace libre<br><small>3 Modules extension radio JA-111R maximum (avec BUS)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="score-row">
-        <td><strong>SCORE DE SECTION</strong></td>
-        <td class="score-ajax">⭐⭐⭐⭐½ - 4.5 / 5</td>
-        <td class="score-jablo">⭐⭐⭐ - 3 / 5</td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SECTION 4 - TEMPS D'INSTALLATION
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">⏱️</span>
-    4 - TEMPS D'INSTALLATION &amp; RENTABILITÉ
-  </div>
-  <table class="comp-table">
-    <thead>
-      <tr>
-        <th class="th-crit">Critère</th>
-        <th class="th-ajax">✅ AJAX</th>
-        <th class="th-jablo">🔷 JABLOTRON</th>
-        <th class="th-adv">Avantage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="td-crit">Architecture câblage</td>
-        <td class="td-ajax">Sans fil Jeweller : <strong>aucun câblage</strong><br><small>Montage snap / adhésif / vis</small></td>
-        <td class="td-jablo">BUS 4 fils obligatoire pour extension radio<br><small class="warn">Tirage câble</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Installation résidentielle (~10 zones)</td>
-        <td class="td-ajax">⚡ <strong>2–4 heures</strong> technicien<br><small>Pose + connexion wifi + configuration smartphone</small></td>
-        <td class="td-jablo">🕐 <strong>6–10 heures</strong> technicien<br><small class="warn">Câblage réseau + F-Link PC + tests</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX<br><small style="color:var(--green)">3× plus rapide</small></td>
-      </tr>
-      <tr>
-        <td class="td-crit">Installation tertiaire (~50 zones)</td>
-        <td class="td-ajax">⚡ <strong>1–2 jours</strong><br><small>Wireless + Connexion à distance direct</small></td>
-        <td class="td-jablo">🕐 <strong>3–5 jours</strong><br><small class="warn">Tirage câble pour recepteur radio + programmation F-Link</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Outils nécessaires</td>
-        <td class="td-ajax">Smartphone + application Ajax PRO minimum<br><small>+ visserie standard</small></td>
-        <td class="td-jablo">PC Windows + logiciel F-Link minimum<br><small class="warn">+ outillage électrique câblage</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr>
-        <td class="td-crit">Modification post-installation</td>
-        <td class="td-ajax"><strong>À distance depuis smartphone</strong><br><small>Sans déplacement, système actif</small></td>
-        <td class="td-jablo">Déplacement obligatoire sur site<br><small class="warn">+ mise en mode SERVICE (système coupé)</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="row-even">
-        <td class="td-crit">Formation technicien</td>
-        <td class="td-ajax">Ajax Academy en ligne, gratuite<br><small>Certification en 1 jour</small></td>
-        <td class="td-jablo">Formation agréée Jablotron obligatoire<br><small class="warn">Présentiel, délai variable, coût formation</small></td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-      <tr class="score-row">
-        <td><strong>SCORE DE SECTION</strong></td>
-        <td class="score-ajax">⭐⭐⭐⭐⭐ - 5 / 5</td>
-        <td class="score-jablo">⭐⭐ - 2 / 5</td>
-        <td class="td-adv adv-ajax">✅ AJAX</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SECTION 5 - SCÉNARIOS TARIFAIRES
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">💰</span>
-    5 - COMPARAISON TARIFAIRE - SCÉNARIOS TYPES (CHF, prix installateur)
-  </div>
-
-  <div class="alert-box alert-blue" style="border-radius:0;margin-bottom:0;">
-    <span class="alert-icon">ℹ️</span>
-    <div>
-      Tous les prix en CHF (tarif installateur Sertek).
-      <br>Jablotron = version <strong>KR</strong> (radio inclus) + module 4G + batterie externe - coût réel complet.
-      <br>Ajax = prix tout compris (ETH + double SIM 4G + batterie interne).
-    </div>
-  </div>
-
-  <!-- Scénario 1 -->
-  <div style="margin-top:20px;">
-    <div class="scenario-title">🏠 RÉSIDENTIEL STANDARD - 1 zone / 6 détecteurs / 100% sans fil</div>
-    <table class="price-table">
-      <thead>
-        <tr style="background:#F4F6F7;">
-          <th style="text-align:left;width:26%">Composant</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:30%">Produit AJAX</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
-          <th style="width:4%;border:none;background:white;"></th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:20%">Produit JABLOTRON</th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:10%">CHF</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Centrale / Hub (comm. + batterie)</td>
-          <td class="td-ajax">Hub 2 (4G) Jeweller<br><small>✅ ETH+2×SIM 4G+batterie inclus</small></td>
-          <td class="price-ajax">115</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-102KRY Mercury<br><small>⚠ 4G+Radio inclus, batterie opt.</small></td>
-          <td class="price-jablo">100</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Détecteur PIR ×6 (sans fil)</td>
-          <td class="td-ajax">MotionProtect ×6</td>
-          <td class="price-ajax">282</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-152P ×6</td>
-          <td class="price-jablo">504</td>
-        </tr>
-        <tr>
-          <td>Contact ouverture ×4 (sans fil)</td>
-          <td class="td-ajax">Superior DoorProtect ×4</td>
-          <td class="price-ajax">124</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-155M ×4</td>
-          <td class="price-jablo">196</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Clavier</td>
-          <td class="td-ajax">Keypad Touchscreen Jeweller</td>
-          <td class="price-ajax">206</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-156E</td>
-          <td class="price-jablo">293</td>
-        </tr>
-        <tr>
-          <td>Sirène intérieure</td>
-          <td class="td-ajax">Superior HomeSiren Jeweller</td>
-          <td class="price-ajax">47</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-154A</td>
-          <td class="price-jablo">85</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Sirène extérieure</td>
-          <td class="td-ajax">StreetSiren Jeweller</td>
-          <td class="price-ajax">85</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-165A</td>
-          <td class="price-jablo">163</td>
-        </tr>
-        <tr class="total-row">
-          <td>TOTAL MATÉRIEL</td>
-          <td class="ajax-total">TOTAL AJAX</td>
-          <td class="ajax-total">CHF 859</td>
-          <td style="background:var(--dark);border:none;"></td>
-          <td class="jablo-total">TOTAL JABLOTRON</td>
-          <td class="jablo-total">CHF 1341</td>
-        </tr>
-        <tr>
-          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 280 (−35%)</td>
-          <td style="border:none;background:white;"></td>
-          <td colspan="2" style="background:var(--jablo-bg);color:var(--jablo-blue);font-size:11px;padding:8px;">⚠ Hors câblage BUS si installation mixte</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Scénario 2 -->
-  <div style="margin-top:20px;">
-    <div class="scenario-title">🏢 TERTIAIRE - 3 zones / 20 détecteurs (JA-103KR + 4G + batterie)</div>
-    <table class="price-table">
-      <thead>
-        <tr style="background:#F4F6F7;">
-          <th style="text-align:left;width:26%">Composant</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:30%">Produit AJAX</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
-          <th style="width:4%;border:none;background:white;"></th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:20%">Produit JABLOTRON</th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:10%">CHF</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Centrale / Hub + Batterie</td>
-          <td class="td-ajax">Superior Hub Hybrid (4G)<br><small>✅ ETH+2×SIM 4G+batterie+Grade 2/3</small></td>
-          <td class="price-ajax">395</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-103KR + 4G (435) + batterie (~20)<br><small class="warn">= 3 éléments séparés</small></td>
-          <td class="price-jablo">455</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Détecteur PIR ×20</td>
-          <td class="td-ajax">Superior MotionProtect Plus ×20</td>
-          <td class="price-ajax">1336</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-162PW ×20</td>
-          <td class="price-jablo">2040</td>
-        </tr>
-        <tr>
-          <td>Contact ouverture ×8</td>
-          <td class="td-ajax">Superior DoorProtect plus ×8</td>
-          <td class="price-ajax">368</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-152SHM ×8</td>
-          <td class="price-jablo">448</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Claviers ×2 + Sirènes</td>
-          <td class="td-ajax">Keypad Touchscreen Jeweller ×2 + Superior HomeSiren ×2 + Superior StreetSiren Plus</td>
-          <td class="price-ajax">646</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-156E ×2 + JA-154A ×2 + JA-163A + cov + Batterie</td>
-          <td class="price-jablo">936</td>
-        </tr>
-        <tr>
-          <td>Répéteur radio ×2</td>
-          <td class="td-ajax">ReX 2 Jeweller ×2</td>
-          <td class="price-ajax">234</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-150R ×2</td>
-          <td class="price-jablo">440</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Levée de doute photo ×4</td>
-          <td class="td-ajax">Superior MotionCam (Phod)Jeweller ×4<br><small>✅ Photo sur alarme intégrée</small></td>
-          <td class="price-ajax">480</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-162PC ×4</td>
-          <td class="price-jablo">724</td>
-        </tr>
-        <tr class="total-row">
-          <td>TOTAL MATÉRIEL</td>
-          <td class="ajax-total">TOTAL AJAX (incl. levée de doute)</td>
-          <td class="ajax-total">CHF 3&thinsp;460</td>
-          <td style="background:var(--dark);border:none;"></td>
-          <td class="jablo-total">TOTAL JABLOTRON (KR+4G+bat)</td>
-          <td class="jablo-total">CHF 5&thinsp;043</td>
-        </tr>
-        <tr>
-          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 1583 (−31%) - et batteries des équipements incluses !</td>
-          <td style="border:none;background:white;"></td>
-          <td colspan="2" style="background:var(--red-warn);color:var(--orange);font-size:11px;padding:8px;">Hors batterie des équipements</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Scénario 3 -->
-  <div style="margin-top:20px;">
-    <div class="scenario-title">🏭 GRANDE INSTALLATION - ~60 détecteurs (JA-107KR + 4G + batterie)</div>
-    <table class="price-table">
-      <thead>
-        <tr style="background:#F4F6F7;">
-          <th style="text-align:left;width:26%">Composant</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:30%">Produit AJAX</th>
-          <th style="background:var(--ajax-bg);color:var(--ajax-red);width:10%">CHF</th>
-          <th style="width:4%;border:none;background:white;"></th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:20%">Produit JABLOTRON</th>
-          <th style="background:var(--jablo-bg);color:var(--jablo-blue);width:10%">CHF</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Centrale / Hub (tout inclus)</td>
-          <td class="td-ajax">Superior Hub Hybrid 2 (4G)<br><small>✅ ETH+2×SIM 4G+batterie+Grade 2/3</small></td>
-          <td class="price-ajax">433</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-107KR + 4G (228) + batterie 7Ah (~50)<br><small class="warn">= 3 éléments séparés</small></td>
-          <td class="price-jablo">739</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Détecteur PIR ×40</td>
-          <td class="td-ajax">Superior DoorProtect plus ×40</td>
-          <td class="price-ajax">2&thinsp;680</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-162PW ×40</td>
-          <td class="price-jablo">4&thinsp;080</td>
-        </tr>
-        <tr>
-          <td>Contact ouverture ×20</td>
-          <td class="td-ajax">Superior DoorProtect plus ×20</td>
-          <td class="price-ajax">920</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-152SHM ×20</td>
-          <td class="price-jablo">1&thinsp;120</td>
-        </tr>
-        <tr style="background:#FAFAFA;">
-          <td>Claviers ×3 + Sirènes ×2</td>
-          <td class="td-ajax">Keypad Touchscreen Jeweller ×3 + Superior StreetSiren Plus x2</td>
-          <td class="price-ajax">894</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-156E ×3 + JA-163A + cov + Batterie x2</td>
-          <td class="price-jablo">1&thinsp;224</td>
-        </tr>
-        <tr>
-          <td>Répéteur radio ×4</td>
-          <td class="td-ajax">ReX 2 Jeweller ×4</td>
-          <td class="price-ajax">467</td>
-          <td style="text-align:center;border:none;color:var(--grey);">vs</td>
-          <td class="td-jablo">JA-150R ×4</td>
-          <td class="price-jablo">876</td>
-        </tr>
-        <tr class="total-row">
-          <td>TOTAL MATÉRIEL</td>
-          <td class="ajax-total">TOTAL AJAX Superior</td>
-          <td class="ajax-total">CHF 5&thinsp;397</td>
-          <td style="background:var(--dark);border:none;"></td>
-          <td class="jablo-total">TOTAL JABLOTRON (KR+4G+bat)</td>
-          <td class="jablo-total">CHF 8&thinsp;039</td>
-        </tr>
-        <tr>
-          <td colspan="3" class="delta-green">✅ AJAX MOINS CHER DE CHF 2&thinsp;642 (−33%)</td>
-          <td style="border:none;background:white;"></td>
-          <td colspan="2" style="background:var(--red-warn);color:var(--orange);font-size:11px;padding:8px;">+ câblage BUS si sections filaires Jablotron</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SECTION 6 - 5 ARGUMENTS DÉCISIFS
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">🏆</span>
-    6 - LES 5 ARGUMENTS DÉCISIFS POUR VOTRE CLIENT
-  </div>
-  <div class="args-grid" style="margin-top:4px;">
-    <div class="arg-card">
-      <div class="arg-num">Argument 1</div>
-      <div class="arg-title">📱 Un smartphone suffit</div>
-      <div class="arg-text">
-        Avec Ajax, un simple smartphone iOS ou Android suffit pour configurer, superviser et modifier le système à distance. Aucun PC, aucun logiciel Windows, aucune présence physique nécessaire. L'application Ajax PRO est gratuite et disponible immédiatement.
-      </div>
-    </div>
-    <div class="arg-card">
-      <div class="arg-num">Argument 2</div>
-      <div class="arg-title">🔒 Système toujours en service</div>
-      <div class="arg-text">
-        Jablotron impose le mode SERVICE (système hors service) à chaque modification. Ajax permet toutes les modifications en temps réel sans jamais couper la protection. Vos clients restent protégés pendant les interventions.
-      </div>
-    </div>
-    <div class="arg-card">
-      <div class="arg-num">Argument 3</div>
-      <div class="arg-title">💰 Prix réel inférieur</div>
-      <div class="arg-text">
-        Le Hub Ajax inclut Ethernet + Double SIM 4G + batterie. Chez Jablotron, ces 3 éléments sont des options séparées (+178 à +228 CHF). Ajax est 31 à 35% moins cher en comparaison équitable sur les 3 scénarios.
-      </div>
-    </div>
-    <div class="arg-card">
-      <div class="arg-num">Argument 4</div>
-      <div class="arg-title">⚡ Installation 3× plus rapide</div>
-      <div class="arg-text">
-        La technologie sans fil Jeweller supprime le tirage de câbles BUS. Une installation résidentielle passe de 8h (Jablotron) à 3h (Ajax). Plus de chantiers par semaine = meilleure rentabilité pour l'installateur.
-      </div>
-    </div>
-    <div class="arg-card" style="grid-column: span 2;">
-      <div class="arg-num">Argument 5</div>
-      <div class="arg-title">🚀 Évolution sans déplacement + Grade 3 exclusif</div>
-      <div class="arg-text">
-        Ajout de zone, modification de scénario, mise à jour firmware : tout se fait à distance via l'app ou le cloud Ajax. Zéro déplacement = client satisfait + technicien libre pour d'autres missions.
-        De plus, Ajax Superior est la <strong>seule solution sans fil certifiée Grade 3 (EN 50131)</strong> - Jablotron JA-103K/107K restent Grade 2 uniquement.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SCORE GLOBAL
-══════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">📈</span>
-    BILAN GLOBAL
-  </div>
-  <div class="two-col" style="margin-top:4px;">
-    <div style="background:var(--ajax-bg);border:2px solid var(--ajax-red);border-radius:6px;padding:24px;text-align:center;">
-      <div style="font-size:13px;font-weight:700;color:var(--ajax-red);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
-        <svg width="24" height="24" viewBox="0 0 180 50" style="vertical-align:middle;margin-right:8px;background:black;border-radius:2px;">
-          <g fill="white" transform="scale(0.7) translate(12,8)">
-            <polygon points="10,38 21,12 26,12 15,38"/>
-            <polygon points="21,12 26,12 22,22 17,22"/>
-            <polygon points="16,26 22,26 20,38 14,38"/>
-            <rect x="32" y="12" width="5" height="14"/>
-            <path d="M29 26 Q28 38 33 38 Q38 38 37 26Z" fill="white"/>
-            <polygon points="44,38 55,12 60,12 49,38"/>
-            <polygon points="55,12 60,12 56,22 51,22"/>
-            <polygon points="50,26 56,26 54,38 48,38"/>
-            <polygon points="65,12 70,12 80,25 75,25"/>
-            <polygon points="75,25 80,25 70,38 65,38"/>
-            <polygon points="75,12 80,12 70,25 65,25"/>
-            <polygon points="65,25 70,25 80,38 75,38"/>
-          </g>
-        </svg>
-        AJAX SYSTEMS
-      </div>
-      <div style="font-size:52px;font-weight:900;color:var(--ajax-red);">24.5</div>
-      <div style="font-size:16px;color:var(--dark);margin-bottom:4px;">/ 25 points</div>
-      <div style="font-size:22px;">⭐⭐⭐⭐⭐</div>
-      <div style="margin-top:12px;font-size:12px;color:var(--dark);line-height:1.7;">
-        Config &amp; mise en service : 5/5<br>
-        Communication intégrée : 5/5<br>
-        Capacités techniques : 4.5/5<br>
-        Installation &amp; rentabilité : 5/5<br>
-        Expérience utilisateur final : 5/5
-      </div>
-    </div>
-    <div style="background:var(--jablo-bg);border:2px solid var(--jablo-blue);border-radius:6px;padding:24px;text-align:center;">
-      <div style="font-size:13px;font-weight:700;color:var(--jablo-blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">JABLOTRON 100+</div>
-      <div style="font-size:52px;font-weight:900;color:var(--jablo-blue);">11</div>
-      <div style="font-size:16px;color:var(--dark);margin-bottom:4px;">/ 25 points</div>
-      <div style="font-size:22px;">⭐⭐</div>
-      <div style="margin-top:12px;font-size:12px;color:var(--dark);line-height:1.7;">
-        Config &amp; mise en service : 1/5<br>
-        Communication intégrée : 2/5<br>
-        Capacités techniques : 3/5<br>
-        Installation &amp; rentabilité : 2/5<br>
-        Expérience utilisateur final : 3/5
-      </div>
-    </div>
-  </div>
-</div>
-
-</div><!-- end .content -->
-
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════════════ -->
-<footer class="footer">
-  Document préparé par <strong>Sertek Security &amp; Comfort</strong> - Distributeur officiel Ajax Systems -
-  Sources : Ajax Academy, Documentation technique Jablotron, Tarifs installateurs Sertek - <strong>Mars 2026</strong>
-</footer>
-
-</div><!-- end .page -->
 </body>
 </html>
