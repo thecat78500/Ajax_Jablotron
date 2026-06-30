@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Génération icône Sertek…</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #0d1525; color: white;
+         display: flex; flex-direction: column; align-items: center; justify-content: center;
+         min-height: 100vh; margin: 0; gap: 20px; }
+  canvas { border-radius: 36px; box-shadow: 0 8px 40px rgba(240,104,0,0.4); }
+  p { font-size: 14px; color: rgba(255,255,255,0.6); text-align: center; max-width: 320px; line-height: 1.6; }
+  strong { color: #f06800; }
+</style>
+</head>
+<body>
+<canvas id="c" width="180" height="180"></canvas>
+<p id="msg">Génération en cours…</p>
+<script>
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+
+/* ── fond dégradé ── */
+const bg = ctx.createLinearGradient(0, 0, 180, 180);
+bg.addColorStop(0, '#131e30');
+bg.addColorStop(1, '#0d1525');
+ctx.fillStyle = bg;
+ctx.beginPath();
+ctx.roundRect(0, 0, 180, 180, 36);
+ctx.fill();
+
+/* ── barre orange ── */
+ctx.fillStyle = '#f06800';
+ctx.beginPath();
+ctx.roundRect(24, 22, 132, 5, 3);
+ctx.fill();
+
+/* ── "S" centré ── */
+ctx.font = 'bold 96px "SF Pro Display", "Helvetica Neue", Arial, sans-serif';
+ctx.textAlign    = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillStyle    = '#ffffff';
+ctx.fillText('S', 90, 96);
+
+/* ── "SERTEK" bas ── */
+ctx.font         = 'bold 14px "SF Pro Display", "Helvetica Neue", Arial, sans-serif';
+ctx.fillStyle    = 'rgba(255,255,255,0.55)';
+ctx.letterSpacing = '4px';
+ctx.fillText('SERTEK', 90, 154);
+
+/* ── barre orange bas ── */
+ctx.fillStyle = '#f06800';
+ctx.beginPath();
+ctx.roundRect(24, 153, 132, 3, 2);
+ctx.fill();
+
+/* ── téléchargement automatique ── */
+setTimeout(() => {
+  const a = document.createElement('a');
+  a.download = 'apple-touch-icon.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+  document.getElementById('msg').innerHTML =
+    '✅ Fichier <strong>apple-touch-icon.png</strong> téléchargé.<br>Placez-le dans votre dossier <strong>images/</strong> sur GitHub.';
+}, 300);
+</script>
+</body>
+</html>
