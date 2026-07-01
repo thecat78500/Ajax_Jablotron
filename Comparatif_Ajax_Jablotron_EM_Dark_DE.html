@@ -33,6 +33,7 @@
 html, body {
   height: 100%; width: 100%;
   height: -webkit-fill-available;
+  height: 100dvh;
   overflow: hidden;
   font-family: var(--font);
   background: var(--bg);
@@ -59,7 +60,7 @@ body::before {
   transition: transform 0.55s cubic-bezier(.77,0,.175,1);
 }
 .slide {
-  min-width: 100vw; height: 100vh;
+  min-width: 100vw; height: 100vh; height: 100dvh;
   overflow: hidden; display: flex; flex-direction: column;
   position: relative;
 }
